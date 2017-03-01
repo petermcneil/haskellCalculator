@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuest        #-}
+{-# LANGUAGE QuasiQuotes       #-}
 module Multiply where
 
 import Foundation
