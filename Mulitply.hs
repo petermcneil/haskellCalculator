@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuest        #-}
-module Multiplication where
+module Multiply where
 
 import Foundation
 import Yesod.Core
