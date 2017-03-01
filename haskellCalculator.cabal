@@ -10,6 +10,8 @@ executable          haskellCalculator
                     Foundation
 
                     Add
+                    Subtract
+                    Multiply
                     Home
 
   ghc-options:      -Wall -fwarn-tabs -O2

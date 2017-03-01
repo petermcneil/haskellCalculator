@@ -16,5 +16,5 @@ getHomeR = defaultLayout $ do
         <p>
             <a href=@{SubR 5 7}>HTML subtraction
         <p>
-            <a hred=@{MultiR 5 7}>HTML subtraction
+            <a href=@{MultiR 5 7}>HTML multiplication
     |]
