@@ -1,2 +1,4 @@
 /              HomeR GET
 /add/#Int/#Int AddR  GET
+/sub/#Int/#Int SubR  GET
+/multi/#Int/#Int MultiR GET
