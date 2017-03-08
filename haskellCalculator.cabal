@@ -9,10 +9,11 @@ executable          haskellCalculator
   other-modules:    Application
                     Foundation
 
-                    Add
-                    Subtract
-                    Multiply
-                    Home
+                    Handler.Add
+                    Handler.Subtract
+                    Handler.Multiply
+                    Handler.Home
+                    Handler.Results
 
   ghc-options:      -Wall -fwarn-tabs -O2
 
