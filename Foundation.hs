@@ -11,3 +11,4 @@ data App = App
 mkYesodData "App" $(parseRoutesFile "routes")
 
 instance Yesod App
+

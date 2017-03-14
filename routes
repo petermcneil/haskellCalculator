@@ -1,8 +1,5 @@
 /                  HomeR GET
 
-/results           ResultsR GET
+/results           ResultsR GET POST
 /results/#Int/#String/#Int      ResultsIdR GET
 
-/add/#Int/#Int     AddR  GET
-/sub/#Int/#Int     SubR  GET
-/multi/#Int/#Int   MultiR GET
