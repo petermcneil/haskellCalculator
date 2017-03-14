@@ -9,9 +9,6 @@ executable          haskellCalculator
   other-modules:    Application
                     Foundation
 
-                    Handler.Add
-                    Handler.Subtract
-                    Handler.Multiply
                     Handler.Home
                     Handler.Results
 
@@ -19,5 +16,12 @@ executable          haskellCalculator
 
   build-depends:  base
                 , yesod-core
+                , yesod-form
+                , yesod-auth
+                , text
+                , template-haskell
+                , shakespeare
+                , aeson
+                , yesod
 
   ghc-options:    -threaded -O2 -rtsopts -with-rtsopts=-N

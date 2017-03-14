@@ -8,9 +8,6 @@ module Application where
 import Foundation
 import Yesod.Core
 
-import Handler.Add
-import Handler.Subtract
-import Handler.Multiply
 import Handler.Home
 import Handler.Results
 
