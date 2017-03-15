@@ -8,7 +8,16 @@ import Yesod.Form
 import Data.Text
 import Handler.Home
 
+
+getResultsR :: Handler Html
+getResultsR = defaultLayout [whamlet| <p> Hi |]
+
+getResultsIdR :: Int -> Text -> Int -> Handler TypedContent
+getResultsIdR x y z = calculateResult x y z
+
 -- /results/#Int/#Text/#Int      ResultsIdR GET
+
+-- Calculation form handling (come back to this)
 postResultsR :: Handler TypedContent
 postResultsR = do
     ((results, widget), enctype) <- runFormPost calcForm
@@ -26,12 +35,6 @@ postResultsR = do
 calculateResults :: Calculation -> Handler TypedContent
 calculateResults  (Calculation x y z) = calculateResult x y z
 
-getResultsIdR :: Int -> Text -> Int -> Handler TypedContent
-getResultsIdR x y z = calculateResult x y z
-
-getResultsR :: Handler Html
-getResultsR = defaultLayout [whamlet| <p> Hi |]
-
 calculateResult :: Int -> Text -> Int -> Handler TypedContent
 calculateResult x op y =
         case op of
@@ -44,6 +47,7 @@ calculateResult x op y =
                provideRep $ defaultLayout $ do
                [whamlet|<h1> This operation is not supported|]
 
+-- Calculations (maybe change all to handle floats?)
 addInt :: Int -> Int -> Handler TypedContent
 addInt x y = selectRep $ do
     provideRep $ defaultLayout $ do
@@ -70,9 +74,6 @@ subInt x y = selectRep $ do
   where
     z = x - y
 
-toFloat :: Int -> Int -> (Float, Float)
-toFloat x y = (fromIntegral(x), fromIntegral(y))
-
 divInt :: (Float, Float) -> Handler TypedContent
 divInt (x, y) =
   case y of
@@ -85,3 +86,6 @@ divInt (x, y) =
         provideJson $ object ["result" .= z]
       where
         z = x / y
+
+toFloat :: Int -> Int -> (Float, Float)
+toFloat x y = (fromIntegral(x), fromIntegral(y))
