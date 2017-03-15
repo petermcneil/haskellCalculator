@@ -1,5 +1,0 @@
-<h1> Hello world!
-
-<form method=post action=@{ResultsR} enctype=#{enctype}>
-  ^{widget}
-  <button class"btn btn-defaul">Submit
