@@ -5,35 +5,44 @@ module Handler.Results where
 import Foundation
 import Yesod.Core
 import Yesod.Form
-import Yesod.Form.Bootstrap3
+import Data.Text
 import Handler.Home
 
-postResultsR :: Handler Html
+-- /results/#Int/#Text/#Int      ResultsIdR GET
+postResultsR :: Handler TypedContent
 postResultsR = do
-    ((results, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm calcForm
+    ((results, widget), enctype) <- runFormPost calcForm
     case results of
-      FormSuccess calculation -> defaultLayout [whamlet|<p>#{show calculation}|]
-      _ -> defaultLayout
+      FormSuccess calculation -> calculateResults calculation
+      _ -> selectRep $ do
+        provideRep $ defaultLayout $ do
            [whamlet|
-              <p> Hello mate,
-              <form role=form method=post action=@{ResultsR} enctype=#{enctype}>
+              <p> The data wasn't valid, try again.
+
+              <form role=form-inline method=post action=@{ResultsR} enctype=#{enctype}>
                 ^{widget}
-                <button type="submit" .btn .btn-default>Submit
            |]
+
+calculateResults :: Calculation -> Handler TypedContent
+calculateResults  (Calculation x y z) = calculateResult x y z
+
+getResultsIdR :: Int -> Text -> Int -> Handler TypedContent
+getResultsIdR x y z = calculateResult x y z
 
 getResultsR :: Handler Html
 getResultsR = defaultLayout [whamlet| <p> Hi |]
 
-getResultsIdR :: Int -> String -> Int -> Handler TypedContent
-getResultsIdR x op y =
+calculateResult :: Int -> Text -> Int -> Handler TypedContent
+calculateResult x op y =
         case op of
           "+" -> addInt x y
           "-" -> subInt x y
           "*" -> multiInt x y
           "d" -> divInt $ toFloat x y
+          "/" -> divInt $ toFloat x y
           _   -> selectRep $ do
                provideRep $ defaultLayout $ do
-               [whamlet|<h1> Something else|]
+               [whamlet|<h1> This operation is not supported|]
 
 addInt :: Int -> Int -> Handler TypedContent
 addInt x y = selectRep $ do
