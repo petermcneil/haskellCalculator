@@ -5,7 +5,6 @@ module Handler.Home where
 import Foundation
 import Yesod.Core
 import Yesod.Form
-import Yesod.Form.Bootstrap3
 import Control.Applicative ((<$>), (<*>))
 import Data.Text
 
@@ -13,25 +12,25 @@ instance RenderMessage App FormMessage where
   renderMessage _ _ = defaultFormMessage
 
 data Calculation = Calculation
-       {  firstNum  :: Text
+       {  firstNum  :: Int
        ,  operator  :: Text
-       ,  secondNum :: Text
+       ,  secondNum :: Int
        }
        deriving (Show)
 
-calcForm :: AForm Handler Calculation
-calcForm = Calculation
-      <$> areq textField (bfs ("firstNum"  :: Text)) Nothing
-      <*> areq textField (bfs ("operator"  :: Text)) Nothing
-      <*> areq textField (bfs ("secondNum" :: Text)) Nothing
+calcForm :: Html -> MForm Handler (FormResult Calculation, Widget)
+calcForm = renderDivs $ Calculation
+      <$> areq intField "firstNum" Nothing
+      <*> areq textField "operator"  Nothing
+      <*> areq intField "secondNum" Nothing
 
 getHomeR :: Handler Html
 getHomeR = do
-     (widget, enctype) <- generateFormPost $ renderBootstrap3 BootstrapBasicForm calcForm
+     (widget, enctype) <- generateFormPost calcForm
      defaultLayout
       [whamlet|
               <p> Hello mate,
-              <form role=form method=post action=@{ResultsR} enctype=#{enctype}>
+              <form method=post action=@{ResultsR} enctype=#{enctype}>
                 ^{widget}
-                <button type="submit" .btn .btn-default>Submit
+                <button>Submit
       |]

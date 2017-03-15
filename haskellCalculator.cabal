@@ -20,8 +20,9 @@ executable          haskellCalculator
                 , yesod-auth
                 , text
                 , template-haskell
+                , bytestring
                 , shakespeare
                 , aeson
                 , yesod
-
+                , sqlite-simple
   ghc-options:    -threaded -O2 -rtsopts -with-rtsopts=-N
