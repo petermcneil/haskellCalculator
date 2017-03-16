@@ -12,10 +12,12 @@ import Handler.Home
 getResultsR :: Handler Html
 getResultsR = defaultLayout [whamlet| <p> Hi |]
 
+  {- Come back to this later when you have sorted persistance
+
 getResultsIdR :: Int -> Text -> Int -> Handler TypedContent
 getResultsIdR x y z = calculateResult x y z
 
--- /results/#Int/#Text/#Int      ResultsIdR GET
+-- /results/#Int/#Text/#Int      ResultsIdR GET -}
 
 -- Calculation form handling (come back to this)
 postResultsR :: Handler TypedContent
@@ -45,7 +47,7 @@ calculateResult x op y =
           "/" -> divInt $ toFloat x y
           _   -> selectRep $ do
                provideRep $ defaultLayout $ do
-               [whamlet|<h1> This operation is not supported|]
+               [whamlet|<h1> This operation is not supported. Please use +, -, *, /|]
 
 -- Calculations (maybe change all to handle floats?)
 addInt :: Int -> Int -> Handler TypedContent
@@ -60,7 +62,7 @@ addInt x y = selectRep $ do
 multiInt :: Int -> Int -> Handler TypedContent
 multiInt x y = selectRep $ do
     provideRep $ defaultLayout $ do
-        [whamlet|#{x} * #{y} = #{z}|]
+        [whamlet|<h1>#{x} * #{y} = #{z}|]
     provideJson $ object ["result" .= z]
   where
     z = x * y
@@ -69,7 +71,7 @@ multiInt x y = selectRep $ do
 subInt :: Int -> Int -> Handler TypedContent
 subInt x y = selectRep $ do
     provideRep $ defaultLayout $ do
-        [whamlet|#{x} - #{y} = #{z}|]
+        [whamlet|<h1>#{x} - #{y} = #{z}|]
     provideJson $ object ["result" .= z]
   where
     z = x - y
@@ -82,7 +84,7 @@ divInt (x, y) =
                [whamlet|<h1> You cannot divide by 0.|]
     _ -> selectRep $ do
         provideRep $ defaultLayout $ do
-           [whamlet|#{x} / #{y} = #{z}|]
+           [whamlet|<h1>#{x} / #{y} = #{z}|]
         provideJson $ object ["result" .= z]
       where
         z = x / y
