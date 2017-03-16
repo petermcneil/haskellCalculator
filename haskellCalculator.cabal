@@ -19,10 +19,16 @@ executable          haskellCalculator
                 , yesod-form
                 , yesod-auth
                 , text
+                , time
                 , template-haskell
                 , bytestring
                 , shakespeare
                 , aeson
                 , yesod
                 , sqlite-simple
+                , persistent
+                , persistent-sqlite
+                , persistent-template
+                , monad-logger
+                , resourcet
   ghc-options:    -threaded -O2 -rtsopts -with-rtsopts=-N

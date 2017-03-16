@@ -6,30 +6,20 @@ import Foundation
 import Yesod.Core
 import Yesod.Form
 import Control.Applicative ((<$>), (<*>))
-import Data.Text
-
-instance RenderMessage App FormMessage where
-  renderMessage _ _ = defaultFormMessage
-
-data Calculation = Calculation
-       {  firstNum  :: Int
-       ,  operator  :: Text
-       ,  secondNum :: Int
-       }
-       deriving (Show)
 
 calcForm :: Html -> MForm Handler (FormResult Calculation, Widget)
-calcForm = renderDivs $ Calculation
-      <$> areq intField "firstNum" Nothing
-      <*> areq textField "operator"  Nothing
-      <*> areq intField "secondNum" Nothing
+calcForm = renderTable $ Calculation
+      <$> areq intField  "First Number "   Nothing
+      <*> areq textField " Operation "     (Just "+")
+      <*> areq intField  " Second Number " Nothing
 
 getHomeR :: Handler Html
 getHomeR = do
      (widget, enctype) <- generateFormPost calcForm
      defaultLayout
       [whamlet|
-              <p> Hello mate,
+              <p> This is a calculator. It has 4 functions: add +, subtract -, multiply *, and divide /. Have fun with this exiciting and brave new world we live in.
+              <br>
               <form method=post action=@{ResultsR} enctype=#{enctype}>
                 ^{widget}
                 <button>Submit

@@ -1,23 +1,19 @@
-{-#LANGUAGE OverloadedStrings #-}
+{-#LANGUAGE OverloadedStrings, EmptyDataDecls, FlexibleContexts, GADTs
+   , GeneralizedNewtypeDeriving, MultiParamTypeClasses, QuasiQuotes, TemplateHaskell
+   , TypeFamilies #-}
+
 import Application () -- for YesodDispatch instance
 import Foundation
 import Yesod.Core
-import Database.SQLite.Simple
+import Database.Persist.Sqlite
+import Control.Monad.Trans.Resource (runResourceT)
+import Control.Monad.Logger (runStderrLoggingT)
 
-data TestField = TestField Int String deriving (Show)
-
-instance FromRow TestField where
-  fromRow = TestField <$> field <*> field
-
-instance ToRow TestField where
-  toRow (TestField id_ str) = toRow (id_, str)
+openConnectionCount :: Int
+openConnectionCount = 10
 
 main :: IO ()
-main = do
-  conn <- open "test.db"
-  execute conn "INSERT INTO test (str) VALUES (?)"
-    ( Only ("test string 2" :: String))
-  r <- query_ conn "SELECT * from test" :: IO [TestField]
-  mapM_ print r
-  warp 3000 App
-  close conn
+main = runStderrLoggingT $ withSqlitePool "db/haskCalc" openConnectionCount $ \pool -> liftIO $ do
+    runResourceT $ flip runSqlPool pool $ do
+        runMigration migrateAll
+    warp 3000 $ App pool
