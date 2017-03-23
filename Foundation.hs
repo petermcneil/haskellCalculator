@@ -29,24 +29,11 @@ instance YesodPersist App where
         App master <- getYesod
         runSqlPool action master
 
-{- User data declaration and instancing
-data User = User
-     { id       :: Int
-     , name     :: String
-     , email    :: String
-     , password :: String
-     }
-      deriving (Show)
-
-instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field
--}
-
 {- Calculation data declaration and instancing-}
 data Calculation = Calculation
-       {  firstNum  :: Int
+       {  firstNum  :: Double
        ,  operator  :: Text
-       ,  secondNum :: Int
+       ,  secondNum :: Double
        }
        deriving (Show)
 
@@ -54,7 +41,7 @@ data Calculation = Calculation
 instance RenderMessage App FormMessage where
   renderMessage _ _ = defaultFormMessage
 
-{- Makes and migrates the tables -}
+{- Makes, allows tables to be migrateable-}
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 User
     username String
@@ -68,10 +55,12 @@ Result
     operator  String
     secondnum Int
     datecreated UTCTime default=CURRENT_TIME
-    deriving Show
-UserResult
-    userId UserId
-    resultId ResultId
-    UnqiueUserResult userId resultId
+    userID UserId Maybe
     deriving Show
 |]
+
+{-UserResult
+    userId UserId Maybe
+    resultId ResultId
+    UnqiueUserResult userId resultId
+    deriving Show-}
