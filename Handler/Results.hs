@@ -16,8 +16,7 @@ getResultsR = defaultLayout [whamlet| <p> Hi |]
 
 getResultsIdR :: Int -> Text -> Int -> Handler TypedContent
 getResultsIdR x y z = calculateResult x y z
-
--- /results/#Int/#Text/#Int      ResultsIdR GET -}
+-}
 
 -- Calculation form handling (come back to this)
 postResultsR :: Handler TypedContent
@@ -37,21 +36,22 @@ postResultsR = do
 calculateResults :: Calculation -> Handler TypedContent
 calculateResults  (Calculation x y z) = calculateResult x y z
 
-calculateResult :: Int -> Text -> Int -> Handler TypedContent
+calculateResult :: Double -> Text -> Double -> Handler TypedContent
 calculateResult x op y =
         case op of
-          "+" -> addInt x y
-          "-" -> subInt x y
-          "*" -> multiInt x y
-          "d" -> divInt $ toFloat x y
-          "/" -> divInt $ toFloat x y
+          "+" -> addNum x y
+          "-" -> subNum x y
+          "*" -> multiNum x y
+          "d" -> divNum x y
+          "/" -> divNum x y
           _   -> selectRep $ do
                provideRep $ defaultLayout $ do
                [whamlet|<h1> This operation is not supported. Please use +, -, *, /|]
 
 -- Calculations (maybe change all to handle floats?)
-addInt :: Int -> Int -> Handler TypedContent
-addInt x y = selectRep $ do
+
+addNum :: Double -> Double -> Handler TypedContent
+addNum x y = selectRep $ do
     provideRep $ defaultLayout $ do
         [whamlet|#{x} + #{y} = #{z}|]
     provideJson $ object ["result" .= z]
@@ -59,8 +59,8 @@ addInt x y = selectRep $ do
     z = x + y
 
 
-multiInt :: Int -> Int -> Handler TypedContent
-multiInt x y = selectRep $ do
+multiNum :: Double -> Double -> Handler TypedContent
+multiNum x y = selectRep $ do
     provideRep $ defaultLayout $ do
         [whamlet|<h1>#{x} * #{y} = #{z}|]
     provideJson $ object ["result" .= z]
@@ -68,16 +68,16 @@ multiInt x y = selectRep $ do
     z = x * y
 
 
-subInt :: Int -> Int -> Handler TypedContent
-subInt x y = selectRep $ do
+subNum :: Double -> Double -> Handler TypedContent
+subNum x y = selectRep $ do
     provideRep $ defaultLayout $ do
         [whamlet|<h1>#{x} - #{y} = #{z}|]
     provideJson $ object ["result" .= z]
   where
     z = x - y
 
-divInt :: (Float, Float) -> Handler TypedContent
-divInt (x, y) =
+divNum :: Double -> Double -> Handler TypedContent
+divNum x y =
   case y of
     0 -> selectRep $ do
                provideRep $ defaultLayout $ do
@@ -89,5 +89,5 @@ divInt (x, y) =
       where
         z = x / y
 
-toFloat :: Int -> Int -> (Float, Float)
-toFloat x y = (fromIntegral(x), fromIntegral(y))
+toDouble :: Int -> Int -> (Double, Double)
+toDouble x y = (fromIntegral(x), fromIntegral(y))

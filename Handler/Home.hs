@@ -9,9 +9,9 @@ import Control.Applicative ((<$>), (<*>))
 
 calcForm :: Html -> MForm Handler (FormResult Calculation, Widget)
 calcForm = renderTable $ Calculation
-      <$> areq intField  "First Number "   Nothing
+      <$> areq doubleField  "First Number "   Nothing
       <*> areq textField " Operation "     (Just "+")
-      <*> areq intField  " Second Number " Nothing
+      <*> areq doubleField  " Second Number " Nothing
 
 getHomeR :: Handler Html
 getHomeR = do
