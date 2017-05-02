@@ -12,7 +12,7 @@ import Data.Text
 calculationAForm :: AForm Handler Calculation
 calculationAForm  = Calculation
   <$> areq doubleField (bfs ("First Number" :: Text)) Nothing
-  <*> aopt (selectFieldList operations)(bfs ("Operation" :: Text)) (Just $ Just Add)
+  <*> aopt (selectFieldList operations)(bfs ("Operation" :: Text)) (Just $Just Add)
   <*> areq doubleField (bfs ("Second Number" :: Text)) Nothing
   where
    operations :: [(Text, Operation)]
