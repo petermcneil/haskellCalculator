@@ -16,9 +16,9 @@ postCalcR = do
   ((results, widget), enctype) <- runFormPost calcForm
   case results of
     FormSuccess calculation -> do
-      let x = genResult calculation
+      let (Result a b c d) = genResult calculation
       --resultId <- runDB $ insert $ x
-      redirect $ ResultR 1
+      redirect $ ResultR a b c d
     _ -> redirect HomeR
 
 insertResult :: Result -> IO()
@@ -35,7 +35,7 @@ genResult (Calculation x op y) =
     Just Subtract -> subNum x y
     Just Multiply -> multiNum x y
     Just Divide -> divNum x y
-    Nothing -> undefined
+    _ -> undefined
 
 addNum :: Double -> Double -> Result
 addNum x y = (Result x y "+" z)
@@ -55,4 +55,7 @@ multiNum x y = (Result x y "*" z)
 divNum :: Double -> Double -> Result
 divNum x y = (Result x y "/" z)
   where
-    z = x / y
+    z =
+      case y of
+        0 -> 0
+        _ -> x/y

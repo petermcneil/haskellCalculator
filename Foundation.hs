@@ -15,6 +15,8 @@ module Foundation where
 
 import Yesod
 import Database.SQLite.Simple
+import Data.Text.Read
+import qualified Data.Text as T
 
 data App = App 
 
@@ -46,6 +48,12 @@ data Result = Result
 instance FromRow Result where
   fromRow = Result <$> field <*> field <*> field <*> field
 
+instance PathPiece Double where
+    fromPathPiece s = 
+        case Data.Text.Read.double s of
+            Right (i, _) -> Just i
+            Left _ -> Nothing
+    toPathPiece = T.pack . show
 
 {-
 {- Creates runDB function -}

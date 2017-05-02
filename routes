@@ -3,5 +3,5 @@
 /results           ResultsR GET 
 
 /calc		   CalcR POST
-/result/#Int	   ResultR GET
+/result/#Double/#Double/#String/#Double	   ResultR GET
 
