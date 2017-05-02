@@ -8,26 +8,17 @@ import Handler.Home
 import Yesod.Core
 import Yesod.Form
 
-import Database.SQLite.Simple
-
 
 postCalcR :: Handler ()
 postCalcR = do
   ((results, widget), enctype) <- runFormPost calcForm
   case results of
     FormSuccess calculation -> do
-      let (Result a b c d) = genResult calculation
-      --resultId <- runDB $ insert $ x
-      redirect $ ResultR a b c d
+      let x = genResult calculation
+      resultId <- runDB $ insert $ x
+      redirect $ ResultR resultId
     _ -> redirect HomeR
 
-insertResult :: Result -> IO()
-insertResult x = do
-  conn <- open "db/haskCalc"
-  execute conn "INSERT INTO result (str) VALUES (?)"
-    (Only ("test string 2" :: String))
-  close conn
-  
 genResult :: Calculation -> Result
 genResult (Calculation x op y) =
   case op of
