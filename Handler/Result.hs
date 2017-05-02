@@ -6,8 +6,8 @@ import Foundation
 
 import Yesod.Core
 
-getResultR :: Int ->  Handler Html
-getResultR x = defaultLayout $ do
+getResultR :: Double -> Double -> String -> Double ->  Handler Html
+getResultR a b c d = defaultLayout $ do
        setTitle "Haskell Calculator - Results"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
@@ -28,8 +28,10 @@ getResultR x = defaultLayout $ do
           
            <div class="container">
              <div class="jumbotron">
-                <h3> Your result is #{x}
+                <h2> #{a} #{c} #{b} = #{d}
+                
              <div class="page-header">
-                <footer>
+               <p> If you tried to divide by 0, you will be returned a result of 0. This is due to the fact that dividing by 0 can't be done.
+               <footer>
                   Peter McNeil 2017 - 15848156
        |]
