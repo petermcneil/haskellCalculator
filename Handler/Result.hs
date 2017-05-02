@@ -1,14 +1,14 @@
-
 {-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 
-module Handler.Results where
+module Handler.Result where
 
 import Foundation
+
 import Yesod.Core
 
-getResultsR :: Handler Html
-getResultsR = defaultLayout $ do
-       setTitle "Haskell Calculator"
+getResultR :: Int ->  Handler Html
+getResultR x = defaultLayout $ do
+       setTitle "Haskell Calculator - Results"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
               <nav class="navbar navbar-inverse navbar-static-top">
@@ -28,7 +28,7 @@ getResultsR = defaultLayout $ do
           
            <div class="container">
              <div class="jumbotron">
-                <h3> The last 10 results were: 
+                <h3> Your result is #{x}
              <div class="page-header">
                 <footer>
                   Peter McNeil 2017 - 15848156

@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE Strict #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 {-# LANGUAGE TypeFamilies      #-}
@@ -8,34 +10,51 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE DeriveGeneric #-}
 module Foundation where
 
 import Yesod
-import Data.Text
-import Database.Persist.Sqlite
-import Data.Time
+import Database.SQLite.Simple
 
-data App = App ConnectionPool
+data App = App 
 
 mkYesodData "App" $(parseRoutesFile "routes")
 
+instance RenderMessage App FormMessage where
+  renderMessage _ _ = defaultFormMessage
+ 
 instance Yesod App
 
+data Operation = Add | Subtract | Multiply | Divide
+  deriving (Show, Eq)
+
+data Calculation = Calculation
+       {  firstNum  :: Double
+       ,  operator  :: Maybe Operation
+       ,  secondNum :: Double
+       }
+       deriving (Show)
+
+data Result = Result
+  { firstnum  :: Double
+  , secondnum :: Double
+  , operation :: String
+  , answer    :: Double
+  }
+  deriving (Show, Eq, Read)
+
+instance FromRow Result where
+  fromRow = Result <$> field <*> field <*> field <*> field
+
+
+{-
 {- Creates runDB function -}
 instance YesodPersist App where
     type YesodPersistBackend App = SqlBackend
 
     runDB action = do
-        App master <- getYesod
-        runSqlPool action master
-
-{- Calculation data declaration and instancing-}
-data Calculation = Calculation
-       {  firstNum  :: Double
-       ,  operator  :: Text
-       ,  secondNum :: Double
-       }
-       deriving (Show)
+        App pool <- getYesod
+        runSqlPool action pool
 
 {- Required for running forms -}
 instance RenderMessage App FormMessage where
@@ -50,17 +69,12 @@ User
     password String
     UniqueUsername username
     deriving Show
+    
 Result
-    firstnum  Int
+    firstnum  Double
+    secondnum Double
     operator  String
-    secondnum Int
-    datecreated UTCTime default=CURRENT_TIME
-    userID UserId Maybe
+    answer    Double
     deriving Show
 |]
-
-{-UserResult
-    userId UserId Maybe
-    resultId ResultId
-    UnqiueUserResult userId resultId
-    deriving Show-}
+-}
