@@ -6,7 +6,6 @@ import Foundation
 
 import Yesod.Core
 import Yesod.Persist
-import Yesod.Persist.Core
 
 getResultR :: ResultId ->  Handler Html
 getResultR x = do
