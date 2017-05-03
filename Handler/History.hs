@@ -24,9 +24,9 @@ getHistoryR = do
                    <a class="navbar-brand" href=@{HomeR}>Calculator
                  <div class="navbar-collapse collapse">
                    <ul class="nav navbar-nav">
-                     <li class="active">
-                       <a href=@{HomeR}>Home
                      <li>
+                       <a href=@{HomeR}>Home
+                     <li class="active">
                        <a href=@{HistoryR}>Latest Results
           
              <div class="container">
