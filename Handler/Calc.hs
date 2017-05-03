@@ -8,11 +8,10 @@ import Handler.Home
 import Yesod.Core
 import Yesod.Form
 import Yesod.Persist
-import Yesod.Persist.Core
 
 postCalcR :: Handler ()
 postCalcR = do
-  ((results, widget), enctype) <- runFormPost calcForm
+  ((results, _), _) <- runFormPost calcForm
   case results of
     FormSuccess calculation -> do
       let x = genResult calculation
