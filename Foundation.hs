@@ -30,6 +30,12 @@ Result
    secondnum Double
    operation String
    answer Double
+   user UserId Maybe
+   deriving Show
+
+User
+   username String
+   email String Maybe
    deriving Show
 |]
   

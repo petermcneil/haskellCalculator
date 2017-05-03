@@ -29,22 +29,22 @@ genResult (Calculation x op y) =
     _ -> undefined
 
 addNum :: Double -> Double -> Result
-addNum x y = (Result x y "+" z)
+addNum x y = (Result x y "+" z Nothing)
   where
     z = x + y
 
 subNum :: Double -> Double -> Result
-subNum x y = (Result x y "-" z)
+subNum x y = (Result x y "-" z Nothing)
   where
     z = x - y
 
 multiNum :: Double -> Double -> Result
-multiNum x y = (Result x y "*" z)
+multiNum x y = (Result x y "*" z Nothing)
   where
     z = x * y
 
 divNum :: Double -> Double -> Result
-divNum x y = (Result x y "/" z)
+divNum x y = (Result x y "/" z Nothing)
   where
     z =
       case y of

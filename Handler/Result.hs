@@ -9,7 +9,7 @@ import Yesod.Persist
 
 getResultR :: ResultId ->  Handler Html
 getResultR x = do
-  (Result a b c d) <- runDB $ get404 x
+  (Result a b c d e) <- runDB $ get404 x
   defaultLayout $ do
        setTitle "Haskell Calculator - Results"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
