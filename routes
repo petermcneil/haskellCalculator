@@ -1,6 +1,6 @@
 /                  HomeR GET
 
-/results           ResultsR GET 
+/history           HistoryR GET 
 
 /calc		   CalcR POST
 /result/#ResultId  ResultR GET

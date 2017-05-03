@@ -41,7 +41,7 @@ getHomeR = do
                      <li class="active">
                        <a href=@{HomeR}>Home
                      <li>
-                       <a href=@{ResultsR}>Latest Results
+                       <a href=@{HistoryR}>Latest Results
           
            <div class="container">
              <div class="jumbotron">
