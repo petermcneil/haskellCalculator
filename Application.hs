@@ -10,7 +10,7 @@ import Yesod.Core
 
 import Handler.Home
 import Handler.Result
-import Handler.Results
+import Handler.History
 import Handler.Calc
 
 mkYesodDispatch "App" resourcesApp

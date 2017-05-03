@@ -1,17 +1,14 @@
+
 {-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 
-module Handler.Result where
+module Handler.History where
 
 import Foundation
-
 import Yesod.Core
-import Yesod.Persist
 
-getResultR :: ResultId ->  Handler Html
-getResultR x = do
-  (Result a b c d) <- runDB $ get404 x
-  defaultLayout $ do
-       setTitle "Haskell Calculator - Results"
+getHistoryR :: Handler Html
+getHistoryR = defaultLayout $ do
+       setTitle "Haskell Calculator"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
               <nav class="navbar navbar-inverse navbar-static-top">
@@ -27,14 +24,12 @@ getResultR x = do
                      <li class="active">
                        <a href=@{HomeR}>Home
                      <li>
-                       <a href=@{ResultsR}>Latest Results
+                       <a href=@{HistoryR}>Latest Results
           
            <div class="container">
              <div class="jumbotron">
-                <h2> #{a} #{c} #{b} = #{d}
-                
+                <h3> The last 10 results were: 
              <div class="page-header">
-               <p> If you tried to divide by 0, you will be returned a result of 0. This is due to the fact that dividing by 0 can't be done.
-               <footer>
+                <footer>
                   Peter McNeil 2017 - 15848156
        |]

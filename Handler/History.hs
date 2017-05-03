@@ -1,17 +1,17 @@
+
 {-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 
-module Handler.Result where
+module Handler.History where
 
 import Foundation
-
 import Yesod.Core
 import Yesod.Persist
 
-getResultR :: ResultId ->  Handler Html
-getResultR x = do
-  (Result a b c d) <- runDB $ get404 x
-  defaultLayout $ do
-       setTitle "Haskell Calculator - Results"
+getHistoryR :: Handler Html
+getHistoryR = do
+      listOfResults <- runDB $ selectList [] [Desc ResultId, LimitTo 10]
+      defaultLayout $ do
+       setTitle "Haskell Calculator"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
               <nav class="navbar navbar-inverse navbar-static-top">
@@ -29,12 +29,21 @@ getResultR x = do
                      <li>
                        <a href=@{HistoryR}>Latest Results
           
-           <div class="container">
-             <div class="jumbotron">
-                <h2> #{a} #{c} #{b} = #{d}
-                
-             <div class="page-header">
-               <p> If you tried to divide by 0, you will be returned a result of 0. This is due to the fact that dividing by 0 can't be done.
-               <footer>
-                  Peter McNeil 2017 - 15848156
+             <div class="container">
+               <div>
+                   <table class="table table-condensed">
+                      <thead>
+                         <td> First Number
+                         <td> Operation
+                         <td> Second Number
+                         <td> Answer
+                      $forall Entity resultId result <- listOfResults
+                          <tr>
+                             <td>#{resultFirstnum result}
+                             <td>#{resultOperation result}
+                             <td>#{resultSecondnum result}
+                             <td>#{resultAnswer result}
+               <div class="page-header">
+                  <footer>
+                    Peter McNeil 2017 - 15848156
        |]
