@@ -12,11 +12,11 @@ import Data.Text
 calculationAForm :: AForm Handler Calculation
 calculationAForm  = Calculation
   <$> areq doubleField (bfs ("First Number" :: Text)) Nothing
-  <*> aopt (selectFieldList operations)(bfs ("Operation" :: Text)) (Just $Just Add)
+  <*> aopt (selectFieldList operations)(bfs ("Operation" :: Text)) (Just $Just CAdd)
   <*> areq doubleField (bfs ("Second Number" :: Text)) Nothing
   where
    operations :: [(Text, Operation)]
-   operations = [("+", Add), ("-", Subtract), ("*", Multiply), ("/", Divide)]
+   operations = [("+", CAdd), ("-", CSubtract), ("*", CMultiply), ("/", CDivide)]
 
 calcForm :: Html -> MForm Handler (FormResult Calculation, Widget)
 calcForm = renderBootstrap3 BootstrapBasicForm calculationAForm

@@ -7,7 +7,8 @@ import Handler.Home
 
 import Yesod.Core
 import Yesod.Form
-
+import Yesod.Persist
+import Yesod.Persist.Core
 
 postCalcR :: Handler ()
 postCalcR = do
@@ -22,10 +23,10 @@ postCalcR = do
 genResult :: Calculation -> Result
 genResult (Calculation x op y) =
   case op of
-    Just Add -> addNum x y
-    Just Subtract -> subNum x y
-    Just Multiply -> multiNum x y
-    Just Divide -> divNum x y
+    Just CAdd -> addNum x y
+    Just CSubtract -> subNum x y
+    Just CMultiply -> multiNum x y
+    Just CDivide -> divNum x y
     _ -> undefined
 
 addNum :: Double -> Double -> Result

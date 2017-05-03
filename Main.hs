@@ -1,20 +1,22 @@
-
-{-#LANGUAGE OverloadedStrings, EmptyDataDecls, FlexibleContexts, GADTs
-   , GeneralizedNewtypeDeriving, MultiParamTypeClasses, QuasiQuotes, TemplateHaskell
-   , TypeFamilies #-}
-
+{-# LANGUAGE EmptyDataDecls             #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE GADTs                      #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE QuasiQuotes                #-}
+{-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE ViewPatterns               #-}
 import Application () -- for YesodDispatch instance
 import Foundation
 
 import Yesod.Core
 import Database.Persist.Sqlite
-import Control.Monad.Trans.Resource (runResourceT)
-import Control.Monad.Logger (runStdoutLoggingT, runStderrLoggingT)
-
-openConnectionCount :: Int
-openConnectionCount = 10
+import Control.Monad.Logger (runStdoutLoggingT)
 
 main :: IO ()
-main = runStderrLoggingT $ withSqlitePool "db/haskCalc.db" openConnectionCount $ runResourceT $ flip runSqlPool pool $ do
-     runMigration migrateAll
+main = do
+  pool <- runStdoutLoggingT $ createSqlitePool "db/haskCalc.db" 10
+  runSqlPersistMPool (runMigration migrateAll) pool
   warp 3000 $ App pool

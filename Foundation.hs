@@ -14,7 +14,7 @@ module Foundation where
 import Yesod
 import Database.Persist.Sqlite
 
-data Operation = Add | Subtract | Multiply | Divide
+data Operation = CAdd | CSubtract | CMultiply | CDivide
   deriving (Show, Eq)
 
 data Calculation = Calculation
