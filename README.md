@@ -1,6 +1,6 @@
 ## Yesod-based RESTful Calculator
 
-I was tasked with building a RESTful Calculator web application with the Yesod framework. It supports basic calculator features (i.e. addition, subtraction, multiplication, and division) and has data persistence.
+I was tasked with building a RESTful Calculator web application with the Yesod framework. It supports basic calculator features (i.e. addition, subtraction, multiplication, and division) and has data persistence. Bootstrap is used for the CSS rendering.
 
 ### Download and run instructions
 
@@ -21,3 +21,11 @@ Username: peter
 Password: hunter2
 `````
 
+If you would like to register an account...
+
+1. Go to the register account page in the web app and register the account
+2  Stop the web app from running
+3. Open `db/yesod-calc.db` in sqlite3 (i.e. `sqlite3 db/yesod-calc.db`)
+4. Find the `userid` by `select * from user order by id desc limit 1;`
+5. Update the user entry by `update user set verified=1 where id=userid;`
+6. Close `yesod-calc.db` and re-exec `yesod-calc` and login!

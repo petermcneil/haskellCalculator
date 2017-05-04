@@ -1,4 +1,6 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
+{-# LANGUAGE TypeFamilies      #-}
 
 module Handler.History where
 
@@ -25,9 +27,9 @@ getHistoryR = do
                    <a class="navbar-brand" href=@{HomeR}>Calculator
                  <div class="navbar-collapse collapse">
                    <ul class="nav navbar-nav">
-                     <li class="active">
-                       <a href=@{HomeR}>Home
                      <li>
+                       <a href=@{HomeR}>Home
+                     <li class="active">
                        <a href=@{HistoryR}>Latest Results
           <div class="container">
              $maybe u <- maid
@@ -51,7 +53,6 @@ getHistoryR = do
                              <td>#{resultOperation result}
                              <td>#{resultSecondnum result}
                              <td>#{resultAnswer result}
-               <div class="page-header">
-                  <footer>
-                    Peter McNeil 2017 - 15848156
+             <footer class="footer">
+                  Peter McNeil 2017 - 15848156
        |]

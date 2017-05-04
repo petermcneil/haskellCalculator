@@ -1,5 +1,5 @@
 name:               yesod-calc
-version:            0.0.0
+version:            1.0.0
 cabal-version:      >= 1.8
 build-type:         Simple
 extra-source-files: routes
@@ -18,18 +18,16 @@ executable          yesod-calc
 
   build-depends:  base
                 , yesod-core
+                , yesod
                 , yesod-form
                 , yesod-auth
                 , yesod-auth-account
                 , yesod-persistent
                 , text
-                , time
                 , template-haskell
                 , bytestring
                 , shakespeare
                 , aeson
-                , yesod
-                , sqlite-simple
                 , persistent
                 , persistent-sqlite
                 , persistent-template

@@ -1,4 +1,5 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies      #-}
 
 module Handler.Calc where
 
@@ -17,7 +18,7 @@ postCalcR = do
   case results of
     FormSuccess calculation -> do
       let (Result a b c d _) = genResult calculation
-      resultId <- runDB $ insert $ (Result a b c d maid)
+      resultId <- runDB $ insert $ Result a b c d maid
       redirect $ ResultR resultId
     _ -> redirect HomeR
 
@@ -31,22 +32,22 @@ genResult (Calculation x op y) =
     _ -> undefined
 
 addNum :: Double -> Double -> Result
-addNum x y = (Result x y "+" z Nothing)
+addNum x y = Result x y "+" z Nothing
   where
     z = x + y
     
 subNum :: Double -> Double -> Result
-subNum x y = (Result x y "-" z Nothing)
+subNum x y = Result x y "-" z Nothing
   where
     z = x - y
 
 multiNum :: Double -> Double -> Result
-multiNum x y = (Result x y "*" z Nothing)
+multiNum x y = Result x y "*" z Nothing
   where
     z = x * y
 
 divNum :: Double -> Double -> Result
-divNum x y = (Result x y "/" z Nothing)
+divNum x y = Result x y "/" z Nothing
   where
     z =
       case y of

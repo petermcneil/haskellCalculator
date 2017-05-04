@@ -1,5 +1,7 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies
-    , MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 module Handler.Home where
 
 import Foundation
@@ -62,8 +64,7 @@ getHomeR = do
                     ^{widget}
                     <button type="submit" .btn .btn-default>Submit
              <p>
-             <div class="page-header">
-                <footer>
+             <footer class="footer">
                   Peter McNeil 2017 - 15848156
        |]
 
