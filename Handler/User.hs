@@ -43,8 +43,8 @@ getUserR x = do
                
              <div class="container">
                <div class="jumbotron">
-               $forall Entity userId user <- loser
-                 <h1> Hello #{userUsername user}!
+                 $forall Entity userId user <- loser
+                   <h1> Hello #{userUsername user}!
                <div>
                    
              <footer class="footer">
