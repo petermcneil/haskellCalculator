@@ -1,3 +1,4 @@
+
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE QuasiQuotes           #-}
 {-# LANGUAGE TypeFamilies          #-}
@@ -30,7 +31,7 @@ getHomeR = do
      maid <- maybeAuthId
      (widget, enctype) <- generateFormPost calcForm
      defaultLayout $ do
-       setTitle "Haskell Calculator"
+       setTitle "Yesod Calculator"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
               <nav class="navbar navbar-inverse navbar-static-top">
@@ -47,24 +48,35 @@ getHomeR = do
                        <a href=@{HomeR}>Home
                      <li>
                        <a href=@{HistoryR}>Latest Results
-          <div class="container">
-             $maybe u <- maid
-                <p> You are logged in as #{u}
-                <p><a href="@{AuthR LogoutR}">Logout</a>
-             $nothing
-                <p>Please visit the <a href="@{AuthR LoginR}">login page</a>                 
-
+                   <ul class="nav navbar-nav navbar-right">
+                    $maybe _ <- maid
+                       <li><a href="@{AuthR LogoutR}">Logout</a>
+                    $nothing
+                       <li><a href="@{AuthR LoginR}">Login</a>                 
            <div class="container">
+             
              <div class="jumbotron">
                 <p> This is a calculator. It has 4 functions: addition, subtraction, multiplication, and division. It is built using the Yesod framework for Haskell. It has been a wild ride...
              <div class="page-header">
-                 <h3> Calculator
-             <p>
-                <form method=post action=@{CalcR} enctype=#{enctype}>
+               <h3> Calculator
+               <p>
+                 <form method=post action=@{CalcR} enctype=#{enctype}>
                     ^{widget}
                     <button type="submit" .btn .btn-default>Submit
-             <p>
+             <div>
+               $maybe u <- maid
+                  <div class="panel panel-success">
+                     <div class="panel-heading">
+                         <h3 class="panel-title">Login Succesful!
+                     <div class="panel-body">
+                         <h3 class="panel-body">Welcome #{u}!
+               $nothing
+                  <div class="panel panel-success">
+                     <div class="panel-heading">
+                         <h3 class="panel-title">Login panel
+                     <div class="panel-body">
+                         <h3 class="panel-body"><a href="@{AuthR LoginR}">Login here</a>
              <footer class="footer">
-                  Peter McNeil 2017 - 15848156
+                 (c) Peter McNeil 2017 - 15848156
        |]
 

@@ -27,16 +27,15 @@ getHistoryR = do
                    <a class="navbar-brand" href=@{HomeR}>Calculator
                  <div class="navbar-collapse collapse">
                    <ul class="nav navbar-nav">
-                     <li>
-                       <a href=@{HomeR}>Home
                      <li class="active">
+                       <a href=@{HomeR}>Home
+                     <li>
                        <a href=@{HistoryR}>Latest Results
-          <div class="container">
-             $maybe u <- maid
-                <p> You are logged in as #{u}
-                <p><a href="@{AuthR LogoutR}">Logout</a>
-             $nothing
-                <p>Please visit the <a href="@{AuthR LoginR}">login page</a>
+                   <ul class="nav navbar-nav navbar-right">
+                    $maybe _ <- maid
+                       <li><a href="@{AuthR LogoutR}">Logout</a>
+                    $nothing
+                       <li><a href="@{AuthR LoginR}">Login</a>                 
                 
              <div class="container">
                <div>
@@ -54,5 +53,5 @@ getHistoryR = do
                              <td>#{resultSecondnum result}
                              <td>#{resultAnswer result}
              <footer class="footer">
-                  Peter McNeil 2017 - 15848156
+                (c) Peter McNeil 2017 - 15848156
        |]

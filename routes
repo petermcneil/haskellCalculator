@@ -1,8 +1,8 @@
-/                  HomeR GET
+/                  HomeR    GET
 
+/result/#ResultId  ResultR  GET
 /history           HistoryR GET 
 
-/calc		   CalcR POST
-/result/#ResultId  ResultR GET
-
+/calc		   CalcR    POST
+/user/#UserId      UserR    GET
 /auth 		   AuthR Auth getAuth

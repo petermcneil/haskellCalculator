@@ -1,20 +1,22 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes       #-}
 {-# LANGUAGE TypeFamilies      #-}
-module Handler.Result where
+module Handler.User where
  
 import Foundation
 
 import Yesod.Core
-import Yesod.Persist
 import Yesod.Auth
 
-getResultR :: ResultId ->  Handler Html
-getResultR x = do
+
+getUserR :: UserId ->  Handler Html
+getUserR x = do
   maid <- maybeAuthId
-  (Result a b c d _) <- runDB $ get404 x
-  defaultLayout $ do
-       setTitle "Haskell Calculator - Results"
+  case maid of
+    Just auth -> do
+--      list :: [Entity Result] <- runDB $ selectList [ResultUser ==. auth] []
+      defaultLayout $ do
+       setTitle "User page"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
               <nav class="navbar navbar-inverse navbar-static-top">
@@ -36,15 +38,16 @@ getResultR x = do
                        <li><a href="@{AuthR LogoutR}">Logout</a>
                     $nothing
                        <li><a href="@{AuthR LoginR}">Login</a>                 
-
-          <div class="container">
-             <div class="jumbotron">
-                <h2> #{a} #{c} #{b} = #{d}
-                
-             <div class="page-header">
-               <p> If you tried to divide by 0, you will be returned a result of 0. This is due to the fact that dividing by 0 can't be done.
-           <footer class="footer">
-               (c) Peter McNeil 2017 - 15848156
+               
+             <div class="container">
+               <div class="jumbotron">
+                 <h1> Hello #{auth}!
+               <div>
+                   
+             <footer class="footer">
+                (c) Peter McNeil 2017 - 15848156
        |]
 
-
+    Nothing -> do
+      defaultLayout $ do
+        [whamlet| You are not authorised to see this page |]
