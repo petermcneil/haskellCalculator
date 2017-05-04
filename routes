@@ -5,3 +5,4 @@
 /calc		   CalcR POST
 /result/#ResultId  ResultR GET
 
+/auth 		   AuthR Auth getAuth

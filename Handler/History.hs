@@ -1,4 +1,3 @@
-
 {-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 
 module Handler.History where
@@ -6,9 +5,11 @@ module Handler.History where
 import Foundation
 import Yesod.Core
 import Yesod.Persist
+import Yesod.Auth
 
 getHistoryR :: Handler Html
 getHistoryR = do
+      maid <- maybeAuthId
       listOfResults <- runDB $ selectList [] [Desc ResultId, LimitTo 10]
       defaultLayout $ do
        setTitle "Haskell Calculator"
@@ -24,13 +25,20 @@ getHistoryR = do
                    <a class="navbar-brand" href=@{HomeR}>Calculator
                  <div class="navbar-collapse collapse">
                    <ul class="nav navbar-nav">
-                     <li>
-                       <a href=@{HomeR}>Home
                      <li class="active">
+                       <a href=@{HomeR}>Home
+                     <li>
                        <a href=@{HistoryR}>Latest Results
-          
+          <div class="container">
+             $maybe u <- maid
+                <p> You are logged in as #{u}
+                <p><a href="@{AuthR LogoutR}">Logout</a>
+             $nothing
+                <p>Please visit the <a href="@{AuthR LoginR}">login page</a>
+                
              <div class="container">
                <div>
+                   <h2> Last 10 results
                    <table class="table table-condensed">
                       <thead>
                          <td> First Number
