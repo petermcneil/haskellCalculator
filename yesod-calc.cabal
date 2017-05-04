@@ -13,6 +13,7 @@ executable          yesod-calc
                     Handler.Result
                     Handler.History
                     Handler.Calc
+                    Handler.User
 
   ghc-options:      -Wall -fwarn-tabs -O2
 

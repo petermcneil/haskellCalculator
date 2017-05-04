@@ -13,5 +13,6 @@ import Handler.Home
 import Handler.Result
 import Handler.History
 import Handler.Calc
+import Handler.User
 
 mkYesodDispatch "App" resourcesApp

@@ -67,7 +67,7 @@ mkYesodData "App" $(parseRoutesFile "routes")
 instance RenderMessage App FormMessage where
   renderMessage _ _ = defaultFormMessage
  
-instance Yesod App 
+instance Yesod App
 
 instance YesodPersist App where
   type YesodPersistBackend App = SqlBackend

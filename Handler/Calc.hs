@@ -17,19 +17,23 @@ postCalcR = do
   ((results, _), _) <- runFormPost calcForm
   case results of
     FormSuccess calculation -> do
-      let (Result a b c d _) = genResult calculation
-      resultId <- runDB $ insert $ Result a b c d maid
-      redirect $ ResultR resultId
+      let result  = genResult calculation
+      case result of
+        Just x -> do
+          let (Result a b c d _) =  x
+          resultId <- runDB $ insert $ Result a b c d maid
+          redirect $ ResultR resultId
+        Nothing -> redirect HomeR
     _ -> redirect HomeR
 
-genResult :: Calculation -> Result
+genResult :: Calculation -> Maybe Result
 genResult (Calculation x op y) =
   case op of
-    Just CAdd -> addNum x y
-    Just CSubtract -> subNum x y 
-    Just CMultiply -> multiNum x y
-    Just CDivide -> divNum x y
-    _ -> undefined
+    Just CAdd -> Just $ addNum x y
+    Just CSubtract -> Just $ subNum x y 
+    Just CMultiply -> Just $ multiNum x y
+    Just CDivide -> Just $ divNum x y
+    _ -> Nothing
 
 addNum :: Double -> Double -> Result
 addNum x y = Result x y "+" z Nothing
