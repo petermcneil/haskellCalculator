@@ -1,19 +1,18 @@
-
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
-
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
+{-# LANGUAGE TypeFamilies      #-}
 module Handler.Result where
-
+ 
 import Foundation
 
 import Yesod.Core
 import Yesod.Persist
-import Data.Maybe
 import Yesod.Auth
 
 getResultR :: ResultId ->  Handler Html
 getResultR x = do
   maid <- maybeAuthId
-  (Result a b c d e) <- runDB $ get404 x
+  (Result a b c d _) <- runDB $ get404 x
   defaultLayout $ do
        setTitle "Haskell Calculator - Results"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -45,7 +44,7 @@ getResultR x = do
                 
              <div class="page-header">
                <p> If you tried to divide by 0, you will be returned a result of 0. This is due to the fact that dividing by 0 can't be done.
-               <footer>
+           <footer class="footer">
                   Peter McNeil 2017 - 15848156
        |]
 

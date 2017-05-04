@@ -1,5 +1,3 @@
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
 {-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses      #-}
@@ -8,8 +6,8 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE ViewPatterns               #-}
+{-# LANGUAGE EmptyDataDecls             #-}
 {-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE FlexibleContexts           #-}
 module Foundation where
 
 
@@ -62,7 +60,7 @@ instance PersistUserCredentials User where
 
     userCreate name email key pwd = User name pwd email False key ""
   
-data App = App ConnectionPool
+newtype App = App ConnectionPool
 
 mkYesodData "App" $(parseRoutesFile "routes")
 
