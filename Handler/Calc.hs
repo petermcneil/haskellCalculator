@@ -23,8 +23,14 @@ postCalcR = do
           let (Result a b c d _) =  x
           resultId <- runDB $ insert $ Result a b c d maid
           redirect $ ResultR resultId
-        Nothing -> redirect HomeR
-    _ -> redirect HomeR
+        Nothing -> do
+          let msg = "Please choose a valid operation"
+          setMessage msg
+          redirect HomeR
+    _ -> do
+      let msg = "Please fill out both fields"
+      setMessage msg
+      redirect HomeR
 
 genResult :: Calculation -> Maybe Result
 genResult (Calculation x op y) =
