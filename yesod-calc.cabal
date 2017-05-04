@@ -20,6 +20,7 @@ executable          yesod-calc
                 , yesod-core
                 , yesod-form
                 , yesod-auth
+                , yesod-auth-account
                 , yesod-persistent
                 , text
                 , time

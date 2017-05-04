@@ -1,3 +1,4 @@
+
 {-# LANGUAGE OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies #-}
 
 module Handler.Result where
@@ -6,9 +7,12 @@ import Foundation
 
 import Yesod.Core
 import Yesod.Persist
+import Data.Maybe
+import Yesod.Auth
 
 getResultR :: ResultId ->  Handler Html
 getResultR x = do
+  maid <- maybeAuthId
   (Result a b c d e) <- runDB $ get404 x
   defaultLayout $ do
        setTitle "Haskell Calculator - Results"
@@ -28,7 +32,13 @@ getResultR x = do
                        <a href=@{HomeR}>Home
                      <li>
                        <a href=@{HistoryR}>Latest Results
-          
+          <div class="container">
+             $maybe u <- maid
+                <p> You are logged in as #{u}
+                <p><a href="@{AuthR LogoutR}">Logout</a>
+             $nothing
+                <p>Please visit the <a href="@{AuthR LoginR}">login page</a>
+                
            <div class="container">
              <div class="jumbotron">
                 <h2> #{a} #{c} #{b} = #{d}
@@ -38,3 +48,5 @@ getResultR x = do
                <footer>
                   Peter McNeil 2017 - 15848156
        |]
+
+

@@ -10,4 +10,14 @@ I was tasked with building a RESTful Calculator web application with the Yesod f
    -- Note this may take a while if you have never run stack.
 3. Navigate to `http://localhost:3000`
 
+### Login
+
+Login is written with the yesod-auth-account, and unforutnately you cannot register a new user unless you are willinging to edit the database. This is due to the fact that the package sends out an email with a verification link, and I don't have an email server.
+
+If you would like to use the login feature the test account is..
+
+````
+Username: peter
+Password: hunter2
+`````
 

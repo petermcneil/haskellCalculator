@@ -5,6 +5,8 @@ module Handler.Home where
 import Foundation
 import Yesod.Core
 import Yesod.Form
+import Yesod.Auth
+
 import Yesod.Form.Bootstrap3
 import Control.Applicative ((<$>), (<*>))
 import Data.Text
@@ -23,6 +25,7 @@ calcForm = renderBootstrap3 BootstrapBasicForm calculationAForm
 
 getHomeR :: Handler Html
 getHomeR = do
+     maid <- maybeAuthId
      (widget, enctype) <- generateFormPost calcForm
      defaultLayout $ do
        setTitle "Haskell Calculator"
@@ -42,7 +45,13 @@ getHomeR = do
                        <a href=@{HomeR}>Home
                      <li>
                        <a href=@{HistoryR}>Latest Results
-          
+          <div class="container">
+             $maybe u <- maid
+                <p> You are logged in as #{u}
+                <p><a href="@{AuthR LogoutR}">Logout</a>
+             $nothing
+                <p>Please visit the <a href="@{AuthR LoginR}">login page</a>                 
+
            <div class="container">
              <div class="jumbotron">
                 <p> This is a calculator. It has 4 functions: addition, subtraction, multiplication, and division. It is built using the Yesod framework for Haskell. It has been a wild ride...
@@ -52,7 +61,9 @@ getHomeR = do
                 <form method=post action=@{CalcR} enctype=#{enctype}>
                     ^{widget}
                     <button type="submit" .btn .btn-default>Submit
+             <p>
              <div class="page-header">
                 <footer>
                   Peter McNeil 2017 - 15848156
        |]
+
