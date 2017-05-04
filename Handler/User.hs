@@ -7,6 +7,7 @@ import Foundation
 
 import Yesod.Core
 import Yesod.Auth
+import Yesod.Persist
 
 
 getUserR :: UserId ->  Handler Html
@@ -14,7 +15,8 @@ getUserR x = do
   maid <- maybeAuthId
   case maid of
     Just auth -> do
---      list :: [Entity Result] <- runDB $ selectList [ResultUser ==. auth] []
+      loser <- runDB $ selectList [UserId ==. x] []
+--      list :: [Entity Result] <- runDB $ selectList [ResultUser ==. ] []
       defaultLayout $ do
        setTitle "User page"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -41,13 +43,14 @@ getUserR x = do
                
              <div class="container">
                <div class="jumbotron">
-                 <h1> Hello #{auth}!
+               $forall Entity userId user <- loser
+                 <h1> Hello #{userUsername user}!
                <div>
                    
              <footer class="footer">
                 (c) Peter McNeil 2017 - 15848156
        |]
 
-    Nothing -> do
-      defaultLayout $ do
-        [whamlet| You are not authorised to see this page |]
+    Nothing -> 
+      defaultLayout
+        [whamlet| You are not authorised to see this page. <a href="@{AuthR LoginR}">Login to see it<a> |]

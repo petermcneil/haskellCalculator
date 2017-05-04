@@ -1,4 +1,3 @@
-
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE QuasiQuotes           #-}
 {-# LANGUAGE TypeFamilies          #-}
@@ -9,6 +8,7 @@ import Foundation
 import Yesod.Core
 import Yesod.Form
 import Yesod.Auth
+import Yesod
 
 import Yesod.Form.Bootstrap3
 import Control.Applicative ((<$>), (<*>))
@@ -29,12 +29,13 @@ calcForm = renderBootstrap3 BootstrapBasicForm calculationAForm
 getHomeR :: Handler Html
 getHomeR = do
      maid <- maybeAuthId
+     msg <- getMessage
      (widget, enctype) <- generateFormPost calcForm
      defaultLayout $ do
        setTitle "Yesod Calculator"
        addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
        [whamlet|
-              <nav class="navbar navbar-inverse navbar-static-top">
+           <nav class="navbar navbar-inverse navbar-static-top">
                <div class="container">
                  <div class="navbar-header">
                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -54,7 +55,10 @@ getHomeR = do
                     $nothing
                        <li><a href="@{AuthR LoginR}">Login</a>                 
            <div class="container">
-             
+             $maybe mmsg <- msg
+                <div class="alert alert-danger" role="alert">
+                   <strong>Oh no!
+                   #{mmsg}
              <div class="jumbotron">
                 <p> This is a calculator. It has 4 functions: addition, subtraction, multiplication, and division. It is built using the Yesod framework for Haskell. It has been a wild ride...
              <div class="page-header">
@@ -65,18 +69,10 @@ getHomeR = do
                     <button type="submit" .btn .btn-default>Submit
              <div>
                $maybe u <- maid
-                  <div class="panel panel-success">
-                     <div class="panel-heading">
-                         <h3 class="panel-title">Login Succesful!
-                     <div class="panel-body">
-                         <h3 class="panel-body">Welcome #{u}!
+                     <h3>Welcome #{u}!
                $nothing
-                  <div class="panel panel-success">
-                     <div class="panel-heading">
-                         <h3 class="panel-title">Login panel
-                     <div class="panel-body">
-                         <h3 class="panel-body"><a href="@{AuthR LoginR}">Login here</a>
+                     <h3><a href="@{AuthR LoginR}">Login here</a>
              <footer class="footer">
                  (c) Peter McNeil 2017 - 15848156
-       |]
-
+       |]        
+       
